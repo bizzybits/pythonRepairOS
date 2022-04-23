@@ -71,6 +71,21 @@ def create(Item=None):
 #         click.echo(f"Hello {name}")
 
 
+def help():
+    print(f"""
+               **************
+               MENU
+               
+               1- link to API documentation
+               2- link to FAQs
+               
+               Exit
+               **************
+               """)
+    article = input("Enter a number or type 'Exit' to exit: ")
+    return article
+
+
 def greeting():
     click.echo(f"""
                **************
@@ -139,7 +154,14 @@ def main():
             direction = menu()
 
     if direction == "2":
-        print("Help")
+        article = help()
+        if article == "1":
+            print("Link to API documentation")
+            direction = menu()
+        if article == "2":
+            print("Link to FAQs")
+            direction = menu()
+
     if direction == "Exit" or "exit":
         print("Thank you, have a great day!")
     else:
