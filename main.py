@@ -163,6 +163,7 @@ def main():
             direction = menu()
 
     if direction == "Exit" or "exit":
+        print_repair_ticket(item)
         print("Thank you, have a great day!")
     else:
         print("invalid command, try again")
