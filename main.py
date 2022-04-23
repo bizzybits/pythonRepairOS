@@ -76,8 +76,8 @@ def help():
                **************
                MENU
                
-               1- link to API documentation
-               2- link to FAQs
+               1- Documentation
+               2- FAQs
                
                Exit
                **************
@@ -156,10 +156,10 @@ def main():
     if direction == "2":
         article = help()
         if article == "1":
-            print("Link to API documentation")
+            print("Documentation")
             direction = menu()
         if article == "2":
-            print("Link to FAQs")
+            print("FAQs")
             direction = menu()
 
     if direction == "Exit" or "exit":
