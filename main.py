@@ -14,9 +14,9 @@ class Item:
 
     def show_full_item(self):
         print(''' 
-            **************
-             Repair Ticket
-            **************''')
+            **************************
+             Repair Ticket Validation 
+            **************************''')
         print("\nThe item that needs repair is: " + self.item_name)
         print("Customer reports issue with:  " + self.issue)
 
@@ -36,9 +36,9 @@ class Item:
 
 def print_repair_ticket(item):
     print(f"""
-           **************
+           *******************************
            Repair Ticket for {item.item_name}!
-           **************""")
+           *******************************""")
     print("\nThe item that needs repair is: " + item.item_name)
     print(f"{item.customer} reports issue with: {item.issue} ")
     print(f"{item.item_name} repair is due on {item.date}")
@@ -165,6 +165,20 @@ def create(Item=None):
     repair_item.show_full_item()
 
 
+def repair_menu():
+    print(f"""
+               ****************
+               REPAIR MENU
+               
+               1- Add a New Repair 
+               
+               Return to Main Menu
+               ****************
+               """)
+    choice = input("Enter a number or type 'Main' to Return to Main Menu: ")
+    return choice
+
+
 def pay_menu():
     print(f"""
                ****************
@@ -242,6 +256,10 @@ def menu():
     return direction
 
 
+def go_back_to_main():
+    menu()
+
+
 @click.command()
 # @click.option('--count', type=int, help='number of greetings')
 @click.option('--name', prompt='Enter the new item')
@@ -268,30 +286,33 @@ def justatest(Item=None):
 def main():
     greeting()
     while 1:
-
         main_menu_choice = menu()
         print("\n")
         if main_menu_choice == "1":
 
-            item = Item.get_new_repair()
-            item.show_full_item()
-            print("\n")
-            validate = is_correct_repair()
-            print("\n")
-            if validate == "y":
-                print_repair_ticket(item)
-                main_menu_choice = menu()
+            repair_menu_choice = repair_menu()
+            if repair_menu_choice == "1":
 
-            if validate == "n":
-                main_menu_choice = menu()
+                item = Item.get_new_repair()
+                item.show_full_item()
+                print("\n")
+                validate = is_correct_repair()
+                print("\n")
+                if validate == "y":
+                    print_repair_ticket(item)
+                    pass
+                    #repair_menu_choice = repair_menu()
 
-            if main_menu_choice.upper() == "EXIT":
-                print("Thank you, have a great day!")
-                break
+                if validate == "n":
+                    #repair_menu_choice = repair_menu()
+                    pass
 
-            else:
-                print("invalid command, try again")
-                main_menu_choice = menu()
+            if repair_menu_choice.upper() == "MAIN":
+                pass
+
+            # else:
+            #     print("invalid command, returning to main menu")
+            #     main_menu_choice = menu()
 
         if main_menu_choice == "2":
             service_dict = {}
@@ -306,20 +327,24 @@ def main():
                 print("\n")
                 if validate == "y":
                     print_service_menu(service_dict)
-                    svc_menu_choice = service_menu()
+                    # svc_menu_choice = service_menu()
+                    pass
 
                 if validate == "n":
-                    svc_menu_choice = menu()
+                    #svc_menu_choice = menu()
+                    pass
+
             if svc_menu_choice == "2":
                 print_service_menu(service_dict)
-                svc_menu_choice = service_menu()
+                pass
+                #svc_menu_choice = service_menu()
 
-            if svc_menu_choice.upper() == "EXIT":
-                print("Thank you, have a great day!")
-                break
-            else:
-                print("invalid command, try again")
-                svc_menu_choice = menu()
+            if svc_menu_choice.upper() == "MAIN":
+                # main_menu_choice = menu()
+                pass
+            # else:
+            #     print("invalid command, try again")
+            #     svc_menu_choice = menu()
 
         if main_menu_choice == "4":
             article = help()
@@ -336,15 +361,20 @@ def main():
             pay_now = pay_menu()
             if pay_now == "1":
                 print("To Be Implemented")
+                pass
             if pay_now.upper() == "MAIN":
-                main_menu_choice = menu()
+                pass
+            # else:
+            #     print("invalid command, try again")
+            #     main_menu_choice = menu()
 
         if main_menu_choice.upper() == "EXIT":
             print("Thank you, have a great day!")
             break
-        else:
-            print("invalid command, try again")
-            main_menu_choice = menu()
+
+        # else:
+        #     print("invalid command, try again")
+        #     main_menu_choice = menu()
 
 
 if __name__ == '__main__':
