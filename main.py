@@ -229,9 +229,9 @@ def menu():
                **************
                MAIN MENU
                
-               1- Enter a New Repair Item
-               2- Service Menu
-               3- Pay Now
+               1- Enter a New Repair Item 
+               2- Service Menu [Admins]
+               3- Pay Now 
                4- Help
                
                Exit RepairOS
