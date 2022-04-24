@@ -1,4 +1,6 @@
 from datetime import date
+from collections import defaultdict
+
 import click
 
 
@@ -30,6 +32,51 @@ class Item:
             except:
                 print("Invalid input!")
                 continue
+
+
+def print_repair_ticket(item):
+    print(f"""
+           **************
+           Repair Ticket for {item.item_name}!
+           **************""")
+    print("\nThe item that needs repair is: " + item.item_name)
+    print(f"{item.customer} reports issue with: {item.issue} ")
+    print(f"{item.item_name} repair is due on {item.date}")
+
+
+class Service:
+
+    def __init__(self, service_name, price):
+        self.service_name = service_name
+        self.price = price
+
+    def show_new_service(self):
+        print(''' 
+            ********************
+             Service Menu Item
+            ********************''')
+        print("\nThe new service added is: " + self.service_name)
+        print("The new price for the service is:  " + self.price)
+
+    @classmethod
+    def get_new_service(cls):
+        while 1:
+            try:
+                service_name = input("Enter new service name: ")
+                price = input("Enter the new price: ")
+                return cls(service_name, price)
+            except:
+                print("Invalid input!")
+                continue
+
+
+def print_service_menu(service_dict):
+    print(f"""
+           **************
+            Service Menu
+           **************""")
+    for service, price in service_dict.items():
+        print(service + " " + price)
 
 
 def print_repair_ticket(item):
@@ -84,10 +131,18 @@ def documentation():
           ''')
 
 
-def is_correct():
+def is_correct_repair():
     print("Is this information correct?\n")
     validate = input(
         "Enter 'y' to confirm and print Repair Ticket\nor 'n' to go back to main menu: "
+    )
+    return validate
+
+
+def is_correct_service():
+    print("Is this information correct?\n")
+    validate = input(
+        "Enter 'y' to confirm and print Service Menu\nor 'n' to go back to main menu: "
     )
     return validate
 
@@ -110,16 +165,45 @@ def create(Item=None):
     repair_item.show_full_item()
 
 
+def pay_menu():
+    print(f"""
+               ****************
+               PAYMENTS MENU
+               
+               1- Pay Now
+               
+               Return to Main Menu
+               ****************
+               """)
+    choice = input("Enter a number or type 'Main' to Return to Main Menu: ")
+    return choice
+
+
+def service_menu():
+    print(f"""
+               ****************
+               SERVICE MENU
+               
+               1- Add a New Service to Menu
+               2- Print Service Menu
+               
+               Return to Main Menu
+               ****************
+               """)
+    choice = input("Enter a number or type 'Main' to Return to Main Menu: ")
+    return choice
+
+
 def help():
     print(f"""
-               **************
-               MENU
+               *****************
+                HELP CENTER MENU
                
                1- Documentation
                2- FAQs
                
                Return to Main Menu
-               **************
+               *****************
                """)
     article = input("Enter a number or type 'Main' to Return to Main Menu: ")
     return article
@@ -132,19 +216,26 @@ def greeting():
                **************
                
                Welcome to your RepairOS!
+               Software that gives you only the features that 
+               provide impact to your shop and none of the 
+               extras. 
+               
+               We shave the grams off your bulky systems!
                """)
 
 
 def menu():
     click.echo(f"""
                **************
-               MENU
+               MAIN MENU
                
                1- Enter a New Repair Item
-               2- Help
+               2- Service Menu
+               3- Pay Now
+               4- Help
                
                Exit RepairOS
-               **************
+               ****************
                
                """)
     direction = input("Enter a number or type 'Exit' to exit RepairOS: ")
@@ -177,27 +268,60 @@ def justatest(Item=None):
 def main():
     greeting()
     while 1:
-        direction = menu()
+
+        main_menu_choice = menu()
         print("\n")
-        if direction == "1":
+        if main_menu_choice == "1":
 
             item = Item.get_new_repair()
             item.show_full_item()
             print("\n")
-            validate = is_correct()
+            validate = is_correct_repair()
             print("\n")
             if validate == "y":
                 print_repair_ticket(item)
-                direction = menu()
+                main_menu_choice = menu()
 
             if validate == "n":
-                direction = menu()
-            else:
-                if direction.upper() == "EXIT":
-                    print("Thank you, have a great day!")
-                    break
+                main_menu_choice = menu()
 
-        if direction == "2":
+            if main_menu_choice.upper() == "EXIT":
+                print("Thank you, have a great day!")
+                break
+
+            else:
+                print("invalid command, try again")
+                main_menu_choice = menu()
+
+        if main_menu_choice == "2":
+            service_dict = {}
+            svc_menu_choice = service_menu()
+            if svc_menu_choice == "1":
+
+                service = Service.get_new_service()
+                service_dict[service.service_name] = service.price
+                service.show_new_service()
+                print("\n")
+                validate = is_correct_service()
+                print("\n")
+                if validate == "y":
+                    print_service_menu(service_dict)
+                    svc_menu_choice = service_menu()
+
+                if validate == "n":
+                    svc_menu_choice = menu()
+            if svc_menu_choice == "2":
+                print_service_menu(service_dict)
+                svc_menu_choice = service_menu()
+
+            if svc_menu_choice.upper() == "EXIT":
+                print("Thank you, have a great day!")
+                break
+            else:
+                print("invalid command, try again")
+                svc_menu_choice = menu()
+
+        if main_menu_choice == "4":
             article = help()
             if article == "1":
                 documentation()
@@ -206,21 +330,21 @@ def main():
                 faqs()
                 article = help()
             if article.upper() == "MAIN":
-                direction = menu()
-            else:
-                print("invalid command, try again")
-                direction = menu()
-                if direction.upper() == "EXIT":
-                    print("Thank you, have a great day!")
-                    break
+                main_menu_choice = menu()
 
-        if direction.upper() == "EXIT":
+        if main_menu_choice == "3":
+            pay_now = pay_menu()
+            if pay_now == "1":
+                print("To Be Implemented")
+            if pay_now.upper() == "MAIN":
+                main_menu_choice = menu()
+
+        if main_menu_choice.upper() == "EXIT":
             print("Thank you, have a great day!")
             break
-
-        # else:
-        #     print("invalid command, try again")
-        #     direction = menu()
+        else:
+            print("invalid command, try again")
+            main_menu_choice = menu()
 
 
 if __name__ == '__main__':
