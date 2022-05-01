@@ -93,8 +93,8 @@ def delete_customer(id):
 
 
 @app.route('/')
-def hello():
-    return render_template("create_customer.html")
+def welcome():
+    return render_template("welcome.html")
 
 
 #create service
