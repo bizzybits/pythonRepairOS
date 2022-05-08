@@ -1,6 +1,5 @@
-from datetime import date
-from collections import defaultdict
-
+import time
+import os
 import click
 
 
@@ -139,6 +138,19 @@ def is_correct_repair():
     return validate
 
 
+def write_help():
+    with open("helpMe.txt", "w") as f:
+        f.write("help")
+
+
+def get_help():
+
+    with open("helpMe.txt") as f:
+        helpful_message = f.readline()
+
+    return helpful_message
+
+
 def is_correct_service():
     print("Is this information correct?\n")
     validate = input(
@@ -247,6 +259,7 @@ def menu():
                2- Service Menu [Admins]
                3- Pay Now 
                4- Help
+               5- HelpBot
                
                Exit RepairOS
                ****************
@@ -368,13 +381,18 @@ def main():
             #     print("invalid command, try again")
             #     main_menu_choice = menu()
 
+        if main_menu_choice == "5":
+            print("Help is on the way!\n")
+            write_help()
+            time.sleep(2)
+            help_msg = get_help()
+            time.sleep(2)
+            print(help_msg)
+            print("\nReturning to main menu...")
+
         if main_menu_choice.upper() == "EXIT":
             print("Thank you, have a great day!")
             break
-
-        # else:
-        #     print("invalid command, try again")
-        #     main_menu_choice = menu()
 
 
 if __name__ == '__main__':
