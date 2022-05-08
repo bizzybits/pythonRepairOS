@@ -1,7 +1,5 @@
 import random
 
-import time
-
 messages_list = [
     "You're doing great!",
     "Sometimes life just feels hard, it doesn't mean that you're doing anything wrong.",
