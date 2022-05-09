@@ -13,7 +13,7 @@ def get_random_number():
     return random_number
 
 
-def get_image_by(number):
+def get_message(number):
     number = number % len(messages_list)
     return messages_list[number]
 
@@ -36,7 +36,7 @@ def main():
         if peek_at_file():
             print("Retrieving a helpful message for the user...")
             random = int(get_random_number())
-            msg = get_image_by(random)
+            msg = get_message(random)
             write_file(msg)
             print("Message sent!")
 
