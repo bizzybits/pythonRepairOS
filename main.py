@@ -1,8 +1,7 @@
 import time
 import click
-import validateUser as svc
+import andreasMicroService as svc  #for launch, service runs in own process
 
-from collections import defaultdict
 from collections import deque
 
 
@@ -286,6 +285,7 @@ def go_back_to_main():
     menu()
 
 
+# This is Andrea's service launch call
 def login():
     svc.launchService()
     userId = input("Enter a User ID: ")
@@ -313,9 +313,9 @@ def login():
     ######################################################
     # write UserID and UserPW into the login file to launch the MicroService Action
     ######################################################
-    # with open("loginUser.txt", "w") as logger:
-    #     logger.write(outstring)
-    #     logger.close()
+    with open("loginUser.txt", "w") as logger:
+        logger.write(outstring)
+        logger.close()
 
     # ######################################################
     # read the MicroService Communication file to see results of Login Attempt
@@ -334,6 +334,7 @@ def login():
             print(f" ...Welcome New User: {userId}")
             pwInvalid = False
         errorCheck.close()
+    return outstring, pwInvalid
 
 
 @click.command()
@@ -353,13 +354,10 @@ def justatest(Item=None):
     
 \nSick driver code for rippin cli
     """
-    # if count is not None:
-    #     run_the_counts(count, name)
-    # if Item is None:
-    #     greeting(Item)
 
 
 def main():
+
     greeting()
     login()
     queue = deque(["Schwinn", "Huffy", "Colnago"])
