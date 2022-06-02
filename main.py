@@ -71,12 +71,12 @@ class Service:
                 continue
 
 
-def print_backlog(self):
+def print_backlog(backlog):
     print(''' 
             ***********************
              General Service Backlog
             ***********************''')
-    print(list(self.keys()))
+    print(backlog)
 
 
 def print_service_menu(service_dict):
@@ -169,6 +169,21 @@ def is_correct_service():
     return validate
 
 
+def add_item_to_backlog(backlog, item):
+    backlog.append(item.item_name)
+    print(backlog)
+
+
+def remove_item_from_backlog(backlog):
+    item_to_remove = input("Enter the item to remove from backlog: ")
+    if item_to_remove in backlog:
+        backlog.remove(item_to_remove)
+        print(backlog)
+    else:
+        print("Item is not in the backlog.")
+        print("Current Backlog: ", backlog)
+
+
 @click.command()
 # @click.option('--count', default=1, help='number of greetings')
 @click.argument('name')
@@ -192,7 +207,9 @@ def repair_menu():
                ****************
                REPAIR MENU
                
-               1- Add a New Repair 
+               1- Add a New Repair to Backlog
+               2- Print Backlog
+               3- Delete Repair from Backlog
                
                Return to Main Menu
                ****************
@@ -267,7 +284,7 @@ def menu():
                **************
                MAIN MENU
                
-               1- Enter a New Repair Item 
+               1- Repair Menu
                2- Service Menu [Admins]
                3- Pay Now 
                4- Help
@@ -360,8 +377,7 @@ def main():
 
     greeting()
     login()
-    queue = deque(["Schwinn", "Huffy", "Colnago"])
-    backlog = {"bike"}
+    backlog = []
     while 1:
         main_menu_choice = menu()
         print("\n")
@@ -369,6 +385,7 @@ def main():
         if main_menu_choice == "1":
 
             repair_menu_choice = repair_menu()
+
             if repair_menu_choice == "1":
 
                 item = Item.get_new_repair()
@@ -378,25 +395,24 @@ def main():
                 print("\n")
                 if validate == "y":
 
-                    queue.append(item.item_name)
+                    add_item_to_backlog(backlog, item)
                     print_repair_ticket(item)
-                    #print_backlog(queue)
-                    print(list(queue))
-                    print(queue[0])
-
-                    pass
-                    #repair_menu_choice = repair_menu()
 
                 if validate == "n":
-                    #repair_menu_choice = repair_menu()
                     pass
+
+            if repair_menu_choice == "2":
+                print("Backlog of Repairs: ")
+                print_backlog(backlog)
+
+            if repair_menu_choice == "3":
+                remove_item_from_backlog(backlog)
 
             if repair_menu_choice.upper() == "MAIN":
                 pass
 
-            # else:
-            #     print("invalid command, returning to main menu")
-            #     main_menu_choice = menu()
+            else:
+                print("invalid command, returning to main menu")
 
         if main_menu_choice == "2":
             service_dict = {}
@@ -426,9 +442,6 @@ def main():
             if svc_menu_choice.upper() == "MAIN":
                 # main_menu_choice = menu()
                 pass
-            # else:
-            #     print("invalid command, try again")
-            #     svc_menu_choice = menu()
 
         if main_menu_choice == "4":
             article = help()
@@ -448,9 +461,6 @@ def main():
                 pass
             if pay_now.upper() == "MAIN":
                 pass
-            # else:
-            #     print("invalid command, try again")
-            #     main_menu_choice = menu()
 
         if main_menu_choice == "5":
             print("Help is on the way!\n")
