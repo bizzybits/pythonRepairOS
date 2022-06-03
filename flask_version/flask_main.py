@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, abort
-from models import db, RepairModel, ServiceMenuModel
+from flask_version.models import db, RepairModel, ServiceMenuModel
 import os
 
 app = Flask(__name__)
