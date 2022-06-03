@@ -14,6 +14,7 @@ class Item:
         self.customer = customer
 
     def show_full_item(self):
+        """Prints item information."""
         print(''' 
             **************************
              Repair Ticket Validation 
@@ -23,6 +24,7 @@ class Item:
 
     @classmethod
     def get_new_repair(cls):
+        """Gets information from user and returns the item"""
         while 1:
             try:
                 item_name = input("Enter new item for repair: ")
@@ -36,6 +38,7 @@ class Item:
 
 
 def print_repair_ticket(item):
+    """Prints repair ticket."""
     print(f"""
            *******************************
            Repair Ticket for {item.item_name}!
@@ -52,6 +55,7 @@ class Service:
         self.price = price
 
     def show_new_service(self):
+        """Prints new service menu item information."""
         print(''' 
             ********************
              Service Menu Item
@@ -61,6 +65,7 @@ class Service:
 
     @classmethod
     def get_new_service(cls):
+        """Gets new service menu item information from admin."""
         while 1:
             try:
                 service_name = input("Enter new service name: ")
@@ -72,6 +77,7 @@ class Service:
 
 
 def print_backlog(backlog):
+    """Prints mechanic service backlog."""
     print(''' 
             ***********************
              General Service Backlog
@@ -80,6 +86,7 @@ def print_backlog(backlog):
 
 
 def print_service_menu(service_dict):
+    """Prints service menu."""
     print(f"""
            **************
             Service Menu
@@ -89,6 +96,7 @@ def print_service_menu(service_dict):
 
 
 def print_repair_ticket(item):
+    """Prints repair ticket with item information."""
     print(f"""
            **************
            Repair Ticket for {item.item_name}!
@@ -99,6 +107,7 @@ def print_repair_ticket(item):
 
 
 def faqs():
+    """Prints FAQs."""
     print('''
                             ** Frequently Asked Questions **
                             
@@ -123,6 +132,7 @@ def faqs():
 
 
 def documentation():
+    """Prints general documentation."""
     print('''
                             ** General Documentation **
                 RepairOS is a helpful software program that allows you to 
@@ -141,6 +151,7 @@ def documentation():
 
 
 def is_correct_repair():
+    """Returns the response from the user to confirm repair information."""
     print("Is this information correct?\n")
     validate = input(
         "Enter 'y' to confirm and print Repair Ticket\nor 'n' to go back to main menu: "
@@ -149,12 +160,13 @@ def is_correct_repair():
 
 
 def write_help():
+    """Prints "help" to the communication file."""
     with open("helpMe.txt", "w") as f:
         f.write("help")
 
 
 def get_help():
-
+    """Reads help message from communication file and returns message to user."""
     with open("helpMe.txt") as f:
         helpful_message = f.readline()
 
@@ -162,6 +174,7 @@ def get_help():
 
 
 def is_correct_service():
+    """Returns user answer for is this information correct."""
     print("Is this information correct?\n")
     validate = input(
         "Enter 'y' to confirm and print Service Menu\nor 'n' to go back to main menu: "
@@ -170,11 +183,14 @@ def is_correct_service():
 
 
 def add_item_to_backlog(backlog, item):
+    """Adds item to backlog and prints updated backlog for user."""
     backlog.append(item.item_name)
     print(backlog)
 
 
 def remove_item_from_backlog(backlog):
+    """Prompts user to enter item for removal, then removes item"""
+    """from backlog and prints error or updated backlog."""
     item_to_remove = input("Enter the item to remove from backlog: ")
     if item_to_remove in backlog:
         backlog.remove(item_to_remove)
@@ -185,16 +201,7 @@ def remove_item_from_backlog(backlog):
 
 
 @click.command()
-# @click.option('--count', default=1, help='number of greetings')
-@click.argument('name')
-def greet(name):
-    # for _ in range(count):
-    click.echo(f"Hello {name}!")
-
-
-@click.command()
 @click.option('--name', prompt='Enter the new item')
-# @click.argument('item')
 def create(Item=None):
     click.echo(f"Creating a new repair item!")
     print
@@ -203,6 +210,7 @@ def create(Item=None):
 
 
 def repair_menu():
+    """Returns choice from Repair Menu options."""
     print(f"""
                ****************
                REPAIR MENU
@@ -219,6 +227,7 @@ def repair_menu():
 
 
 def pay_menu():
+    """Returns choice from Payments Menu options."""
     print(f"""
                ****************
                PAYMENTS MENU
@@ -233,6 +242,7 @@ def pay_menu():
 
 
 def service_menu():
+    """Returns choice from Service Menu options."""
     print(f"""
                ****************
                SERVICE MENU
@@ -248,6 +258,7 @@ def service_menu():
 
 
 def help():
+    """Returns choice from Help Center Menu options."""
     print(f"""
                *****************
                 HELP CENTER MENU
@@ -263,6 +274,7 @@ def help():
 
 
 def greeting():
+    """Prints welcome message."""
     click.echo(f"""
                **************
                HELLO!
@@ -280,6 +292,7 @@ def greeting():
 
 
 def menu():
+    """Returns choice from Main Menu options."""
     click.echo(f"""
                **************
                MAIN MENU
@@ -296,10 +309,6 @@ def menu():
                """)
     direction = input("Enter a number or type 'Exit' to exit RepairOS: ")
     return direction
-
-
-def go_back_to_main():
-    menu()
 
 
 # This is Andrea's service launch call
@@ -354,23 +363,89 @@ def login():
     return outstring, pwInvalid
 
 
-@click.command()
-# @click.option('--count', type=int, help='number of greetings')
-@click.option('--name', prompt='Enter the new item')
-def justatest(Item=None):
-    """
-    
-░██████╗██╗░██████╗░  ░█████╗░██╗░░░░░██╗
-██╔════╝██║██╔═══██╗  ██╔══██╗██║░░░░░██║
-╚█████╗░██║██║██╗██║  ██║░░╚═╝██║░░░░░██║
-░╚═══██╗██║╚██████╔╝  ██║░░██╗██║░░░░░██║
-██████╔╝██║░╚═██╔═╝░  ╚█████╔╝███████╗██║
-╚═════╝░╚═╝░░░╚═╝░░░  ░╚════╝░╚══════╝╚═╝
-    
-    
-    
-\nSick driver code for rippin cli
-    """
+def new_repair(backlog):
+
+    item = Item.get_new_repair()
+    item.show_full_item()
+    print("\n")
+    validate = is_correct_repair()
+    print("\n")
+    if validate == "y":
+
+        add_item_to_backlog(backlog, item)
+        print_repair_ticket(item)
+    if validate == "n":
+        pass
+
+
+def repair_menu_options(repair_menu_choice, backlog):
+
+    if repair_menu_choice == "1":
+        new_repair(backlog)
+
+    if repair_menu_choice == "2":
+        print("Backlog of Repairs: ")
+        print_backlog(backlog)
+
+    if repair_menu_choice == "3":
+        remove_item_from_backlog(backlog)
+
+    if repair_menu_choice.upper() == "MAIN":
+        pass
+
+
+def service_menu_options(svc_menu_choice, service_dict):
+    if svc_menu_choice == "1":
+
+        service = Service.get_new_service()
+        service_dict[service.service_name] = service.price
+        service.show_new_service()
+        print("\n")
+        validate = is_correct_service()
+        print("\n")
+        if validate == "y":
+            print_service_menu(service_dict)
+            pass
+
+        if validate == "n":
+            pass
+
+    if svc_menu_choice == "2":
+        print_service_menu(service_dict)
+        pass
+
+    if svc_menu_choice.upper() == "MAIN":
+        pass
+
+
+def help_menu_options(article):
+
+    if article == "1":
+        documentation()
+        article = help()
+    if article == "2":
+        faqs()
+        article = help()
+    if article.upper() == "MAIN":
+        pass
+
+
+def pay_menu_options(pay_now):
+    if pay_now == "1":
+        print("To Be Implemented")
+        pass
+    if pay_now.upper() == "MAIN":
+        pass
+
+
+def helpBot():
+    print("Help is on the way!\n")
+    write_help()
+    time.sleep(2)
+    help_msg = get_help()
+    time.sleep(2)
+    print(help_msg)
+    print("\nReturning to main menu...")
 
 
 def main():
@@ -378,98 +453,29 @@ def main():
     greeting()
     login()
     backlog = []
+    service_dict = {}
     while 1:
         main_menu_choice = menu()
         print("\n")
 
         if main_menu_choice == "1":
-
             repair_menu_choice = repair_menu()
-
-            if repair_menu_choice == "1":
-
-                item = Item.get_new_repair()
-                item.show_full_item()
-                print("\n")
-                validate = is_correct_repair()
-                print("\n")
-                if validate == "y":
-
-                    add_item_to_backlog(backlog, item)
-                    print_repair_ticket(item)
-
-                if validate == "n":
-                    pass
-
-            if repair_menu_choice == "2":
-                print("Backlog of Repairs: ")
-                print_backlog(backlog)
-
-            if repair_menu_choice == "3":
-                remove_item_from_backlog(backlog)
-
-            if repair_menu_choice.upper() == "MAIN":
-                pass
-
-            else:
-                print("invalid command, returning to main menu")
+            repair_menu_options(repair_menu_choice, backlog)
 
         if main_menu_choice == "2":
-            service_dict = {}
             svc_menu_choice = service_menu()
-            if svc_menu_choice == "1":
-
-                service = Service.get_new_service()
-                service_dict[service.service_name] = service.price
-                service.show_new_service()
-                print("\n")
-                validate = is_correct_service()
-                print("\n")
-                if validate == "y":
-                    print_service_menu(service_dict)
-                    # svc_menu_choice = service_menu()
-                    pass
-
-                if validate == "n":
-                    #svc_menu_choice = menu()
-                    pass
-
-            if svc_menu_choice == "2":
-                print_service_menu(service_dict)
-                pass
-                #svc_menu_choice = service_menu()
-
-            if svc_menu_choice.upper() == "MAIN":
-                # main_menu_choice = menu()
-                pass
+            service_menu_options(svc_menu_choice, service_dict)
 
         if main_menu_choice == "4":
             article = help()
-            if article == "1":
-                documentation()
-                article = help()
-            if article == "2":
-                faqs()
-                article = help()
-            if article.upper() == "MAIN":
-                main_menu_choice = menu()
+            help_menu_options(article)
 
         if main_menu_choice == "3":
             pay_now = pay_menu()
-            if pay_now == "1":
-                print("To Be Implemented")
-                pass
-            if pay_now.upper() == "MAIN":
-                pass
+            pay_menu_options(pay_now)
 
         if main_menu_choice == "5":
-            print("Help is on the way!\n")
-            write_help()
-            time.sleep(2)
-            help_msg = get_help()
-            time.sleep(2)
-            print(help_msg)
-            print("\nReturning to main menu...")
+            helpBot()
 
         if main_menu_choice.upper() == "EXIT":
             print("Thank you, have a great day!")
